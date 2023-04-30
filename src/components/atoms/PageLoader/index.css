@@ -1,0 +1,18 @@
+.page-loader {
+  margin-top: 3rem;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+
+.page-loader span {
+  margin-right: 1rem;
+}
+
+.MuiCircularProgress-root {
+    width: 1.3rem!important;
+    height: 1.3rem!important;
+}

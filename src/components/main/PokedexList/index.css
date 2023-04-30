@@ -1,0 +1,28 @@
+.pokedex-list-wrap {
+  padding-bottom: 1rem;
+}
+
+.pokedex-list {
+  margin-top: 3rem;
+  display: grid;
+  column-gap: 2.5rem;
+  row-gap: 4rem;
+}
+
+/* For desktop screen: */
+@media only screen and (min-width: 900px) {
+  .pokedex-list {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* For mobile phone screen: */
+@media only screen and (max-width: 899px) {
+  .pokedex-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.pokedex-list .cardbox-img-wrapper img {
+  height: 13rem;
+}

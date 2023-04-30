@@ -1,0 +1,36 @@
+.header {
+  display: flex;
+  align-items: center;
+  padding: 3rem 0;
+}
+
+.header-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 100%;
+  padding: 1rem 1rem 1rem 0rem;
+}
+
+.header-subtitle {
+  font-size: 1rem;
+  margin-left: 4rem;
+  width: 100%;
+  padding: 1.4rem;
+}
+
+/* For desktop screen: */
+@media only screen and (min-width: 900px) {
+  .header-title {
+    border-right: #000 1px solid;
+  }
+}
+
+/* For mobile phone screen: */
+@media only screen and (max-width: 899px) {
+  .header-title {
+    border-bottom: #000 1px solid;
+  }
+  .header-subtitle {
+    padding-left: 0rem;
+  }
+}

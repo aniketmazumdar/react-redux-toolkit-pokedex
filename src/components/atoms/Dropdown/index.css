@@ -1,0 +1,11 @@
+label {
+  margin-bottom: 10px;
+}
+
+/* For mobile phone screen: */
+@media only screen and (max-width: 899px) {
+  .MuiList-root {
+    display: grid;
+    grid-template-columns: auto auto;
+  }
+}

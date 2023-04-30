@@ -1,0 +1,27 @@
+.cardbox {
+    text-align: center;
+    border: #777 dashed 2px;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    position: relative;
+    width: -webkit-fill-available;
+}
+
+.cardbox button {
+    margin: 0;
+    /* position: absolute; */
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.cardbox-img{
+    width: 100%;
+}
+
+.cardbox h3{
+    font-weight: lighter;
+    margin-top: -10px;
+    font-size: 20px;
+}
