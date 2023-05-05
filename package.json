@@ -9,6 +9,7 @@
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.11",
     "@mui/styled-engine-sc": "^5.11.11",
+    "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/user-event": "^13.5.0",
     "jest-fetch-mock": "^3.0.3",

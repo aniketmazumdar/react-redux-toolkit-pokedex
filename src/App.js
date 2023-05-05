@@ -1,6 +1,6 @@
 import './App.css';
 import { Header, Filter, PokedexList } from "./components";
-import {Provider} from 'react-redux'
+import { Provider } from 'react-redux'
 import store from './redux/store'
 
 

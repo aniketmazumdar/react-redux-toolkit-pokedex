@@ -8,12 +8,12 @@ import {
   PokedexDetailsEvolutionChain,
   PokedexDetailsButtonGroup,
 } from "../../";
-import { getPokemonBasicDetailsInfo } from "../../../redux/actions";
+import { getPokemonBasicDetailsInfo } from "../../../redux/slice/pokemonSlice";
 
 
 export const PokedexDetails = ({ pokemonId = null, closeModalEvent = null, changePokemonEvent = null }) => {
   const globalState = useSelector(state => state);
-  const { IS_POKEMON_BASIC_DETAILS_PROCESSING} = globalState;
+  const { is_pokemon_basic_details_processing} = globalState;
   const dispatch = useDispatch();
 
   const [pokemonDetails, setPokemonDetails] = useState({
@@ -58,7 +58,7 @@ export const PokedexDetails = ({ pokemonId = null, closeModalEvent = null, chang
       thirdEvolutionBasicDetails,
       prevPokemonName,
       nextPokemonName,
-    } = await dispatch(getPokemonBasicDetailsInfo(pokemonId)).then(res => res);
+    } = await dispatch(getPokemonBasicDetailsInfo(pokemonId)).then(res => res?.payload);
 
     await setPokemonDetails({
       id,
@@ -100,7 +100,7 @@ export const PokedexDetails = ({ pokemonId = null, closeModalEvent = null, chang
               types: pokemonDetails?.types,
               pokemonDesc: pokemonDetails?.pokemonDesc,
             }}
-            isLoading={IS_POKEMON_BASIC_DETAILS_PROCESSING}
+            isLoading={is_pokemon_basic_details_processing}
             closeModalEvent={closeModalEvent}
             changePokemonEvent={changePokemonEvent}
           />
@@ -115,10 +115,10 @@ export const PokedexDetails = ({ pokemonId = null, closeModalEvent = null, chang
               types: pokemonDetails?.types,
               weakAgainsts: pokemonDetails?.weakAgainsts,
             }}
-            isLoading={IS_POKEMON_BASIC_DETAILS_PROCESSING}
+            isLoading={is_pokemon_basic_details_processing}
           />
 
-          <PokedexDetailsStrategies stats={pokemonDetails?.stats} isLoading={IS_POKEMON_BASIC_DETAILS_PROCESSING} />
+          <PokedexDetailsStrategies stats={pokemonDetails?.stats} isLoading={is_pokemon_basic_details_processing} />
 
           <PokedexDetailsEvolutionChain
             compData={{
@@ -126,7 +126,7 @@ export const PokedexDetails = ({ pokemonId = null, closeModalEvent = null, chang
               secondPokemonBasicDetails: pokemonDetails?.secondEvolutionBasicDetails,
               thirdPokemonBasicDetails: pokemonDetails?.thirdEvolutionBasicDetails,
             }}
-            isLoading={IS_POKEMON_BASIC_DETAILS_PROCESSING}
+            isLoading={is_pokemon_basic_details_processing}
           />
 
           <PokedexDetailsButtonGroup
@@ -134,7 +134,7 @@ export const PokedexDetails = ({ pokemonId = null, closeModalEvent = null, chang
               prevPokemonName: pokemonDetails?.prevPokemonName,
               nextPokemonName: pokemonDetails?.nextPokemonName,
             }}
-            isLoading={IS_POKEMON_BASIC_DETAILS_PROCESSING}
+            isLoading={is_pokemon_basic_details_processing}
             changePokemonEvent={changePokemonEvent}
           />
         </>

@@ -17,7 +17,7 @@ import {
   fetchStatListFromApi,
   filterAttrUpdate,
   filterDataUpdate,
-} from "../../../redux/actions";
+} from "../../../redux/slice/pokemonSlice";
 
 
 export const Filter = () => {
@@ -32,7 +32,7 @@ export const Filter = () => {
   const loadDropdownsData = async () => {
     await dispatch(fetchTypeListFromApi());
 
-    const genderApiRes = await dispatch(getGenderNameList());
+    const genderApiRes = await dispatch(getGenderNameList()).then(res => res?.payload);
     setGenders(genderApiRes);
 
     await dispatch(fetchStatListFromApi());
@@ -154,7 +154,7 @@ export const Filter = () => {
         <Modal
           size="sm"
           isOpen={isOpenedModal}
-          childComp={
+          childcomp={
             <FilterDropdownsMobile
               types={allTypes}
               checkedTypes={selectedTypes}

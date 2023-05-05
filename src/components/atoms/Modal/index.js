@@ -2,7 +2,7 @@ import Dialog from '@mui/material/Dialog';
 
 
 export const Modal = (props) => {
-    const { childComp, size = 'md', isOpen = true, classes = '' } = props;
+    const { childcomp, size = 'md', isOpen = true, classes = '' } = props;
 
     return (
         <>
@@ -14,8 +14,8 @@ export const Modal = (props) => {
                 className={classes}
                 {...props}
             >
-                <div className='modal-container'>
-                    {childComp}
+                <div className='modal-container' {...props}>
+                    {childcomp}
                 </div>
             </Dialog>
         </>

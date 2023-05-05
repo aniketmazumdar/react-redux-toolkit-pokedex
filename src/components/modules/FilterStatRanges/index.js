@@ -16,9 +16,7 @@ const StatRanges = ({
     const [statList, setStatList] = useState({});
 
     const onChangeEvent = (name, value) => {
-        let newstatList = { ...statList };
-        newstatList[name]['min'] = value[0];
-        newstatList[name]['max'] = value[1];
+        let newstatList = { ...statList, [name]: { min: value[0], max: value[1] } };
         setStatList(newstatList);
         onChangeStat(newstatList);  // for Mobile Filter Popup
     }
@@ -26,11 +24,10 @@ const StatRanges = ({
     const onResetEvent = () => {
         let newstatList = { ...statList };
         Object.keys(newstatList).forEach((name) => {
-            newstatList[name]['min'] = minLevel;
-            newstatList[name]['max'] = maxLevel;
+            newstatList = { ...newstatList, [name]: { min: minLevel, max: maxLevel } };
         });
         setStatList(newstatList);
-        onSubmitEvent(statList);
+        onSubmitEvent(newstatList);
     }
 
     useEffect(() => {

@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { CardBox, Modal, PageLoader, PokedexDetails } from "../../";
 import { getSiblingPokemonBasicDetails } from "../../../utils";
-import { getPokemonList } from "../../../redux/actions";
+import { getPokemonList } from "../../../redux/slice/pokemonSlice";
 
 
 export const PokedexList = () => {
   const globalState = useSelector(state => state);
-  const { filteredPokemons, allPokemons, pokemonListOffset, IS_POKEMON_LIST_PROCESSING } = globalState;
+  const { filteredPokemons, allPokemons, pokemonListOffset, is_pokemon_list_processing } = globalState;
   const dispatch = useDispatch();
 
   const [isMountModal, setIsMountModal] = useState(false);
@@ -33,7 +33,7 @@ export const PokedexList = () => {
       window.innerHeight + document.documentElement.scrollTop >
       document.documentElement.offsetHeight - 1
     ) {
-      if (!IS_POKEMON_LIST_PROCESSING) {
+      if (!is_pokemon_list_processing) {
         dispatch(getPokemonList())
       }
     }
@@ -46,7 +46,7 @@ export const PokedexList = () => {
   useEffect(() => {
     window.addEventListener("scroll", handleScrollEvent);
     return () => window.removeEventListener("scroll", handleScrollEvent);
-  }, [pokemonListOffset, IS_POKEMON_LIST_PROCESSING]);
+  }, [pokemonListOffset, is_pokemon_list_processing]);
 
   return (
     <>
@@ -78,7 +78,7 @@ export const PokedexList = () => {
               })}
             </div>
 
-            {IS_POKEMON_LIST_PROCESSING && <PageLoader color="grey" text="Loading more items..." />}
+            {is_pokemon_list_processing && <PageLoader color="grey" text="Loading more items..." />}
           </>
         ) : (
           <h4>No result item found!!</h4>
@@ -88,7 +88,7 @@ export const PokedexList = () => {
       {isMountModal && (
         <Modal
           size="md"
-          childComp={
+          childcomp={
             <PokedexDetails
               closeModalEvent={toggleModal}
               changePokemonEvent={changePokemon}

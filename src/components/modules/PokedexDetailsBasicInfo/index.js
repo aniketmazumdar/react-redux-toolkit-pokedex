@@ -115,7 +115,7 @@ export const PokedexDetailsBasicInfo = (props) => {
       {
         isMount && <Modal
           size='md'
-          childComp={
+          childcomp={
             <PokedexDetailsDescription
               content={pokemonDesc}
               setIsMount={setIsMount}
