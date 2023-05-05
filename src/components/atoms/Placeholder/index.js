@@ -5,7 +5,7 @@ export const Placeholder = (props) => {
 
     let placeholders = [];
     for (let i = 0; i < quantity; i++) {
-        placeholders.push(<Skeleton key={i} variant={variant} width={width} height={height} />);
+        placeholders.push(<Skeleton key={i} variant={variant} width={width} height={height} data-testid={`data-placeholder-${i}`} />);
     }
     return placeholders;
 }

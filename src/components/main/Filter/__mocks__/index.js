@@ -177,13 +177,3 @@ export const mockStatListApiResData = {
         "max": 210
     }
 };
-
-export const mockContextData = {
-    allPokemons: mockAllPokemonsData,
-    searchStr: '',
-    selectedTypes: [],
-    selectedGenders: [],
-    statList: {},
-    statRangeMinLevel: 0,
-    statRangeMaxLevel: 210
-};
