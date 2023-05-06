@@ -136,7 +136,9 @@ We need to import all the actions of slice and asyncThunk in our component. We u
 // App.js
 
 import { useSelector, useDispatch } from 'react-redux'
-import { genderListFetch, typeListFetch, fetchPokemonListFromApi } from "./pokemonSlice";
+import { genderListFetch, typeListFetch } from "./pokemonSlice";
+import { fetchPokemonListFromApi } from "./apiAction";
+
 
 export default App = () => {
   const dispatch = useDispatch()
