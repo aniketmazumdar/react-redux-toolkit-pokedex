@@ -12,29 +12,169 @@ This is a single page responsive app. Page contains pokemon card list. There is 
 
 ### Technologies
 Project is created with:
-* React JS (18.2.0)
-* Redux (4.2.1)
-* Redux Thunk (2.4.2)
+* HTML 5
 * CSS 3
+* React JS (18.2.0)
+* Redux Toolkit (^1.9.5)
 
-Here we use two redux hooks: `useSelector` & `useDispatch` instead of `connect`.\
+Here we use Redux Toolkit & Hooks. For redux toolkit, we use `createSlice` & `createAsyncThunk`. For redux hooks, we use two hooks: `useSelector` & `useDispatch`.
 
-**useSelector**: is used to fetch the redux state.\
-**useDispatch**: is used to trigger / dispatch the action.
+`createSlice`: is a higher order function that accepts: **Slice Name**, **Initial States**, **All Reducer Functions** & **Extra Reducer Functions**. It generates **Action Creators** & **Action Types** that correspond to the reducers and state.
+
 
 ```js
+// pokemonSlice.js
+
+import { createSlice } from '@reduxjs/toolkit'
+
+export const pokemonSlice = createSlice({
+    name: 'pokemon',
+    initialState: {
+      allPokemons: [],
+      allGenders: [],
+      allTypes: [],
+      isLoading: false
+    },
+    reducers: {
+      genderListFetch: (state, action) => {
+          state.allGenders = action?.payload?.result;
+      },
+      typeListFetch: (state, action) => {
+          state.allTypes = action?.payload?.result;
+      },
+    },
+    extraReducers: {},
+});
+
+export const { genderListFetch, typeListFetch } = pokemonSlice.actions;
+
+export default pokemonSlice.reducer;
+```
+
+\
+`createAsyncThunk`: is used to manage **Asychronous Tasks** in the slice. It takes **two** params: **Action Name** & **Callback method**. It returns a **Promise**. On the results there is a param named `payload`, which returns actually the result value.
+
+The Callback method of `createAsyncThunk` takes **two** arguments: `args` & `thunkAPI`.
+
+`args`: refers all the custom arguments of the method passing at the time of invoke. It takes all the params in a **object** format.\
+`thunkAPI`: refers all the normal redux methods & objects like `dispatch`, `getState` etc.
+
+```js
+// apiAction.js
+
+import { createAsyncThunk } from '@reduxjs/toolkit'
+
+export const fetchPokemonListFromApi = createAsyncThunk(
+    'pokemon/fetchPokemonListFromApi',
+    async (args, thunkAPI) => {
+        const { gender, type } = args;
+        const { dispatch, getState } = thunkAPI;
+
+        try {
+          dispatch(actionToFecthGenderListFromApi());
+          dispatch(actionToFecthTypeListFromApi());
+
+          let pokemons = await getState().allPokemons;
+            if (pokemons && pokemons.length > 0) {
+              return pokemons;
+            }
+
+            return await fetch(`https://pokeapi.co/api/v2/pokemon/${gender}/${type}`)
+                .then(res => res.json())
+                .then(res => res?.payload?.results);
+        } catch (error) {
+            console.log('error: ', error);
+            return error;
+        }
+    }
+);
+```
+
+\
+`extraReducers`: Now, for `createAsyncThunk` methods we use different reducer methods, where based on Promise states (*pending, fulfilled & rejected*), we set our redux state.
+
+```js
+// apiAction.js
+
+export const extraReducers = {
+    [fetchPokemonListFromApi.pending]: (state) => {
+        state.isLoading = true;
+    },
+    [fetchPokemonListFromApi.fulfilled]: (state, action) => {
+        state.isLoading = false;
+        state.allPokemons = [...state.allPokemons, ...action.payload.pList];
+    },
+    [fetchPokemonListFromApi.rejected]: (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message
+    },
+}
+```
+
+\
+All of these reducers are taken in an object and this object value is passed as the value of `extraReducers` param of `createSlice`.
+
+```js
+// pokemonSlice.js
+
+import { extraReducers } from "./apiAction";
+
+export const pokemonSlice = createSlice({
+    name: 'pokemon',
+    .... ,
+    .... ,
+    extraReducers: extraReducers,
+});
+
+```
+
+\
+We need to import all the actions of slice and asyncThunk in our component. We use redux hook `useSelector` to fetch the redux states and `useDispatch` to dispatch the actions.
+
+```js
+// App.js
+
 import { useSelector, useDispatch } from 'react-redux'
-import { increaseCount, decreaseCount } from './actions'
+import { genderListFetch, typeListFetch, fetchPokemonListFromApi } from "./pokemonSlice";
 
 export default App = () => {
   const dispatch = useDispatch()
-  const globalState = useSelector(state => state);
+  const { allPokemons, allGenders, allTypes, isLoading } = useSelector(state => state);
+
+  if (!allGenders || allGenders.length) {
+    dispatch(genderListFetch(['Male', 'Female', 'Other']));
+  }
+
+  if (!allTypes || allTypes.length) {
+    dispatch(typeListFetch(['Water', 'Land', 'Sky']));
+  }
+
 
   return (
     <div className="App">
-      <h4>COUNT: { globalState.count }</h4>
-      <button onClick={() => dispatch(increaseCount(globalState.count+1)}>INCREASE</button>
-      <button onClick={() => dispatch(decreaseCount(globalState.count-1)}>DECREASE</button>
+      <div>
+        <h4>POKEMON LIST</h4>
+        <ul>
+          {allPokemons?.map((item, indx) => {
+            return <li>{item.name}</li>
+          })}
+        </ul>
+      </div>
+
+      <div>
+        <h4>Filter by Gender & Type </h4>
+        <input
+          name="gender"
+          placeholder="Gender"
+          onChange={(e) => dispatch(fetchPokemonListFromApi({ gender: e.target.value }))}
+        />
+
+        <input
+          name="type"
+          placeholder="Type"
+          onChange={(e) => dispatch(fetchPokemonListFromApi({ type: e.target.value }))}
+        />
+      </div>
     </div>
   );
 }
