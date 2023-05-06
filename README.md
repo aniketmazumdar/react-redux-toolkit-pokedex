@@ -103,7 +103,7 @@ export const extraReducers = {
     },
     [fetchPokemonListFromApi.fulfilled]: (state, action) => {
         state.isLoading = false;
-        state.allPokemons = [...state.allPokemons, ...action.payload.pList];
+        state.allPokemons = [...state.allPokemons, ...action.payload];
     },
     [fetchPokemonListFromApi.rejected]: (state, action) => {
         state.isLoading = false;
