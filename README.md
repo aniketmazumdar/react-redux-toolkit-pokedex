@@ -17,6 +17,7 @@ Project is created with:
 * React JS (18.2.0)
 * Redux Toolkit (^1.9.5)
 
+\
 Here we use Redux Toolkit & Hooks. For redux toolkit, we use `createSlice` & `createAsyncThunk`. For redux hooks, we use two hooks: `useSelector` & `useDispatch`.
 
 `createSlice`: is a higher order function that accepts: **Slice Name**, **Initial States**, **All Reducer Functions** & **Extra Reducer Functions**. It generates **Action Creators** & **Action Types** that correspond to the reducers and state.
